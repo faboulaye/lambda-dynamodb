@@ -25,6 +25,10 @@ provider:
               - Ref: "AWS::AccountId"
               - table/${self:provider.environment.POSTS_TABLE}
 
+package:
+  exclude:
+    - node_modules
+
 functions:
   create:
     handler: handler.create
@@ -32,6 +36,30 @@ functions:
       - http:
           path: /posts
           method: post
+  update:
+    handler: handler.update
+    events:
+      - http:
+          path: /posts/{id}
+          method: put
+  delete:
+    handler: handler.delete
+    events:
+      - http:
+          path: /posts/{id}
+          method: delete
+  get:
+    handler: handler.get
+    events:
+      - http:
+          path: /posts/{id}
+          method: get
+  list:
+    handler: handler.list
+    events:
+      - http:
+          path: /posts
+          method: get
 
 resources:
   Resources:
